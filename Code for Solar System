@@ -1,0 +1,152 @@
+//Background
+penColor("black");
+dot(300);
+penColor("white");
+drawStars();
+
+//Orbit lines
+allOrbitLines();
+
+//Asteroid belt
+drawAsteroidBelt(210, 10, 3, 1);
+
+//Planets + Sun
+hide();
+penRGB(0,0,0);
+drawSun(250, 210,0,45, 160, 0);
+drawAllPlanets();
+
+// Draw All Planets
+//Nikolas Struntz
+function drawAllPlanets(){
+  drawPlanet(90,90,140,15, 200,70,0,160);
+  drawPlanet(250,185, 95, 20,80,95,0,220);
+  drawPlanet(70,70, 245, 21,260,135,0,145);
+  drawPlanet(210,70, 70, 18,125,215,0,190);
+  drawPlanet(180,120, 120, 29,150,305,0,180);
+  drawPlanet(200,200, 170, 25,260,335,2,160);
+  drawPlanet(100,140, 225, 23,60,382,2,200);
+  drawPlanet(50,100, 240, 22,220,435,1,170);
+}
+
+//Background functions
+//Nitish
+function drawStars() {
+  for (var i = 0; i < 100; i++) {
+    penUp();
+    moveTo(randomNumber(0, 320), randomNumber(0, 450));
+    penDown();
+    drawStar(1);
+  }
+}
+
+
+//Nitish
+function drawStar(size) {
+  penRGB(255, 255, 255, 0.5);
+  dot(size);
+}
+
+//Orbit lines functions
+//Nathan Pan
+function drawOrbitLine(radius, xPos) {
+  penUp();
+  moveTo(xPos, 0);
+  penRGB(200,200,200,0.5);
+  penDown();
+  turnTo(180);
+  arcLeft(180,radius);
+}
+//Nathan Pan
+function allOrbitLines(){
+  for(var i = 0; i < 9; i++) {
+    if (i != 4) {
+      drawOrbitLine(80 + i*45, 80 - i*45);
+    }
+  }
+}
+
+//Draw Sun functions
+//Nikolas Struntz
+function drawSun(red, green, blue, size, x, y){
+  penUp();
+  moveTo(x,y);
+  penRGB(red, green, blue, 0.9);
+  penDown();
+  dot(size);
+  penRGB(red,green,blue, 0.4);
+  dot(size+5);
+  penRGB(red,green,blue,0.3);
+  dot(size+10);
+  penRGB(red, green, blue, 0.25);
+  dot(size+15);
+  penRGB(red, green, blue, 0.20);
+  dot(size+20);
+  penRGB(red,green,blue, 0.15);
+  dot(size+30);
+  penUp();
+}
+
+// Draw planets
+//Nikolas Struntz
+function drawPlanet(red, green, blue, size, x, y, rings, shadowAngle){
+  penUp();
+  moveTo(x,y);
+  penRGB(red, green, blue, 1);
+  penDown();
+  dot(size);
+  // Add Shadow
+  //Travis + Nathan
+  for (var i = 0; i < size; i+=1) {
+    penRGB(0, 0, 0, 0.1);
+    turnTo(shadowAngle);
+    penUp();
+    moveForward(2);
+    dot(size-i);
+  }
+  penRGB(red, green, blue, 1);
+  // Add Rings
+  //Nikolas Struntz
+  for(var b=0; b<rings;b++){
+    penUp();
+    moveTo(x-size*((b/2)+1.5),y);
+    turnTo(0);
+    penWidth(2);
+    penDown();
+    arcRight(360,size*((b/2)+1.5));
+  }
+  penUp();
+}
+
+
+//Asteroid belt functions
+//Travis
+function drawAsteroidBelt(y, num, tight, size) {
+  // "y" is the y position of the belt, up and down. >y = higher , <y = lower
+  // "num" is the number of asteroids on each curve. >num = less , <num = more
+  // "tight" is how close together each curve is on the y axis. >tight = further , <tight = closer
+  // "size" is the size of each asteroid. >size = bigger , <size = smaller
+  
+  penUp();
+  
+  for (var i = 0; i < tight*10; i+=tight) {
+    moveTo(0, y - (i + randomNumber(-5, 5)));
+    turnTo(135);
+    
+    for (var a = 0; a < 40-num; a++) {
+      arcLeft(randomNumber(num, num+5), 230);
+      drawAsteroid(size);
+      
+    }
+    
+  }
+  
+}
+
+//Travis
+function drawAsteroid(size) {
+  var color = randomNumber(100,200);
+  penRGB(color, color, color, 1);
+  dot(randomNumber(2 + size, 6 + size));
+
+}
